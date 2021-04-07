@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 
 class QuestionYesNoWidget extends StatefulWidget
     implements IQuestionChildWidget {
-  Function checkAnswer;
-  Answer answer;
+  @override
+  AnswerState answerState;
   QuestionYesNoWidget({
     Key key,
-    @required this.checkAnswer,
-  });
+  }) {
+    answerState = AnswerState.INIT;
+  }
   @override
   _QuestionYesNoWidgetState createState() => _QuestionYesNoWidgetState();
 }
@@ -34,7 +35,7 @@ class _QuestionYesNoWidgetState extends State<QuestionYesNoWidget> {
                   color: Colors.blue[800],
                   size: 32,
                 ),
-                color: (widget.answer == Answer.YES)
+                color: (widget.answerState == AnswerState.YES)
                     ? Colors.green[200]
                     : Colors.blue[100],
                 shape: RoundedRectangleBorder(
@@ -44,7 +45,7 @@ class _QuestionYesNoWidgetState extends State<QuestionYesNoWidget> {
                 ),
                 onPressed: () {
                   setState(() {
-                    widget.answer = Answer.YES;
+                    widget.answerState = AnswerState.YES;
                   });
                 },
               ),
@@ -60,7 +61,7 @@ class _QuestionYesNoWidgetState extends State<QuestionYesNoWidget> {
                   color: Colors.blue[800],
                   size: 32,
                 ),
-                color: (widget.answer == Answer.NO)
+                color: (widget.answerState == AnswerState.NO)
                     ? Colors.red[200]
                     : Colors.blue[100],
                 shape: RoundedRectangleBorder(
@@ -70,7 +71,7 @@ class _QuestionYesNoWidgetState extends State<QuestionYesNoWidget> {
                 ),
                 onPressed: () {
                   setState(() {
-                    widget.answer = Answer.NO;
+                    widget.answerState = AnswerState.NO;
                   });
                 },
               ),

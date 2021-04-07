@@ -1,3 +1,4 @@
+import 'package:binamod/pages/packet2/enum/answer_enum.dart';
 import 'package:binamod/pages/packet2/widget/question_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -6,7 +7,8 @@ class QuestionNumberWidget extends StatefulWidget
     implements IQuestionChildWidget {
   int selectedValue, maxValue, minValue, stepValue;
   String unit;
-  Function checkAnswer;
+  @override
+  AnswerState answerState;
   QuestionNumberWidget({
     Key key,
     @required this.selectedValue,
@@ -14,8 +16,9 @@ class QuestionNumberWidget extends StatefulWidget
     @required this.minValue,
     @required this.stepValue,
     this.unit,
-    @required this.checkAnswer,
-  }) : super(key: key);
+  }) : super(key: key) {
+    answerState = AnswerState.YES;
+  }
   @override
   _QuestionNumberWidgetState createState() => _QuestionNumberWidgetState();
 }

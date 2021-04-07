@@ -1,1 +1,1 @@
-enum Seen { NOT, NOW, SEEN }
+enum SeenState { NOT, NOW, SEEN }

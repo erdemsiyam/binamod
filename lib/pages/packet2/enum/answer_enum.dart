@@ -1,1 +1,1 @@
-enum Answer { INIT, YES, NO }
+enum AnswerState { INIT, YES, NO }

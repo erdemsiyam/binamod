@@ -1,5 +1,6 @@
 import 'package:binamod/pages/packet1/packet1_page.dart';
 import 'package:binamod/pages/packet2/packet2_page.dart';
+import 'package:binamod/providers/dots_provider.dart';
 import 'package:binamod/providers/home_provider.dart';
 import 'package:binamod/providers/packet1_provider.dart';
 import 'package:binamod/providers/packet2_provider.dart';
@@ -20,17 +21,30 @@ class HomePage extends StatelessWidget {
     return PageView(
       physics: NeverScrollableScrollPhysics(),
       // (_homeProvider.getScrollable())
-          // ? ScrollPhysics()
-          // : NeverScrollableScrollPhysics(),
+      // ? ScrollPhysics()
+      // : NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       controller: pageController,
       children: [
-        ChangeNotifierProvider<Packet1Provider>(
-          create: (_) => Packet1Provider(),
-          child: Packet1Page(pageController),
-        ),
-        ChangeNotifierProvider<Packet2Provider>(
-          create: (_) => Packet2Provider(),
+        // TODO alttakini geri aç
+        // ChangeNotifierProvider<Packet1Provider>(
+        //   create: (_) => Packet1Provider(),
+        //   child: Packet1Page(pageController),
+        // ),
+
+        // ChangeNotifierProvider<Packet2Provider>(
+        //   create: (_) => Packet2Provider(),
+        //   child: Packet2Page(),
+        // ),
+
+        MultiProvider(
+          providers: [
+            // Provider<Packet2Provider>(create: (_) => Packet2Provider()),
+            // Provider<DotsProvider>(create: (_) => DotsProvider()),
+            ChangeNotifierProvider<Packet2Provider>(
+                create: (_) => Packet2Provider()),
+            ChangeNotifierProvider<DotsProvider>(create: (_) => DotsProvider()),
+          ],
           child: Packet2Page(),
         ),
       ],

@@ -1,4 +1,5 @@
 import 'package:binamod/api/user_service.dart';
+import 'package:binamod/model/packet2_request_model.dart';
 import 'package:binamod/model/packet2_response_model.dart';
 import 'package:flutter/material.dart';
 
@@ -19,14 +20,14 @@ class Packet2Provider with ChangeNotifier {
   Future<void> sendQualityAnswers() async {
     // TODO scevaplar gider
     packet2State = Packet2State.LOADING;
-    packet2responseModel = await UserService().packet2Request();
-    switch (packet2responseModel.httpStatus) {
-      case 200:
-        packet2State = Packet2State.DONE;
-        return;
-      default:
-       packet2State = Packet2State.FAIL;
-        return;
-    }
+    // packet2responseModel = await UserService().packet2Request(Packet2RequestModel());
+    // switch (packet2responseModel.httpStatus) {
+    //   case 200:
+    //     packet2State = Packet2State.DONE;
+    //     return;
+    //   default:
+    //    packet2State = Packet2State.FAIL;
+    //     return;
+    // }
   }
 }

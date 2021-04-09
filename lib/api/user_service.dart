@@ -1,11 +1,19 @@
+import 'package:binamod/model/packet2_response_model.dart';
 import 'package:binamod/model/user_response_model.dart';
 
 class UserService {
+  /* Singleton */
   static UserService _userService;
   UserService._internal();
-  static UserResponseModel userResponseModel;
+  factory UserService() {
+    if (_userService == null) _userService = UserService._internal();
+    return _userService;
+  }
 
-  static Future<UserResponseModel> login() async {
+  /* Properties */
+  UserResponseModel userResponseModel;
+
+  Future<UserResponseModel> login() async {
     /* fake */
     await Future.delayed(Duration(seconds: 1));
     userResponseModel = UserResponseModel();
@@ -17,7 +25,17 @@ class UserService {
     return userResponseModel;
   }
 
-  static reToken() {}
-  static packet1Request() {}
-  static packet2Request() {}
+  reToken() {}
+  packet1Request() {}
+  Future<Packet2ResponseModel> packet2Request() async {
+    // TODO paket 2 isteği
+    //
+    /* fake */
+    await Future.delayed(Duration(seconds: 1));
+    return Packet2ResponseModel(
+      httpStatus: 200,
+      result: ResultState.HIGH_RISK,
+      resultText: 'Binanıza X kadar ton ağırlığı uygulanmaktadır',
+    );
+  }
 }

@@ -9,7 +9,7 @@ class LoginProvider with ChangeNotifier {
   Future<bool> login() async {
     loginEnum = LoginEnum.LOADING;
     notifyListeners();
-    switch ((await UserService.login()).httpStatus) {
+    switch ((await UserService().login()).httpStatus) {
       case 200:
         loginEnum = LoginEnum.DONE;
         notifyListeners();

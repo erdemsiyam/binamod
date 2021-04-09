@@ -86,7 +86,9 @@ class Packet2Page extends StatelessWidget {
       QuestionWidget(
         iconData: Icons.water_damage,
         title: 'Korozyon Var Mı?',
-        child: QuestionYesNoWidget(),
+        child: QuestionYesNoWidget(
+          onClick: doneControl,
+        ),
       ),
     );
     pages.add(
@@ -105,14 +107,18 @@ class Packet2Page extends StatelessWidget {
       QuestionWidget(
         iconData: Icons.fastfood,
         title: 'Zemin Katta Dükkan Var Mı?',
-        child: QuestionYesNoWidget(),
+        child: QuestionYesNoWidget(
+          onClick: doneControl,
+        ),
       ),
     );
     pages.add(
       QuestionWidget(
         iconData: Icons.location_city,
         title: 'Bina Bitişik Nizam Mı?',
-        child: QuestionYesNoWidget(),
+        child: QuestionYesNoWidget(
+          onClick: doneControl,
+        ),
       ),
     );
   }
@@ -123,11 +129,11 @@ class Packet2Page extends StatelessWidget {
         return questionsWidget();
       case Packet2State.LOADING:
         // TODO: Handle this case.
-        return null;
+        return CircularProgressIndicator();
         break;
       case Packet2State.FAIL:
         // TODO: Handle this case.
-        return null;
+        return Container(child: Text('Hata'));
       case Packet2State.DONE:
         return ResultWidget();
     }
@@ -150,9 +156,8 @@ class Packet2Page extends StatelessWidget {
             onPageChanged: (int index) {
               print('pageview 1. sayfa');
               updateSeenStates(index);
-              updateDots(index);
-              if (doneControl()) {
-                packet2provider.sendQualityAnswers();
+              if (!doneControl()) {
+                updateDots(index);
               } else {}
             },
             itemCount: pages.length,
@@ -174,8 +179,12 @@ class Packet2Page extends StatelessWidget {
   }
 
   bool doneControl() {
-    return pages.where((x) => x.child.answerState == AnswerState.INIT).length ==
-        0;
+    bool isDone =
+        pages.where((x) => x.child.answerState == AnswerState.INIT).length == 0;
+    if (isDone) {
+      packet2provider.sendQualityAnswers();
+    }
+    return isDone;
   }
 
   void updateDots(int index) {

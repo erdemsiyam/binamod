@@ -6,8 +6,10 @@ class QuestionYesNoWidget extends StatefulWidget
     implements IQuestionChildWidget {
   @override
   AnswerState answerState;
+  bool Function() onClick;
   QuestionYesNoWidget({
     Key key,
+    @required this.onClick,
   }) {
     answerState = AnswerState.INIT;
   }
@@ -47,6 +49,7 @@ class _QuestionYesNoWidgetState extends State<QuestionYesNoWidget> {
                   setState(() {
                     widget.answerState = AnswerState.YES;
                   });
+                  widget.onClick.call();
                 },
               ),
             ),
@@ -73,6 +76,7 @@ class _QuestionYesNoWidgetState extends State<QuestionYesNoWidget> {
                   setState(() {
                     widget.answerState = AnswerState.NO;
                   });
+                  widget.onClick.call();
                 },
               ),
             ),

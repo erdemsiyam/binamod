@@ -1,12 +1,12 @@
+import 'package:binamod/providers/packet2_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ResultWidget extends StatelessWidget {
   // QualityProvider _qualityProvider;
-
+  Packet2Provider _packet2provider;
   @override
   // double shortestSide;
-
-  String loadingText = "İşleniyor...";
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class ResultWidget extends StatelessWidget {
     //   case DoneState.LOADING:
     //     return loading();
     //   case DoneState.DONE:
-    return done();
+    return done(context);
     //   case DoneState.FAIL:
     //     return fail();
     //   case DoneState.INIT:
@@ -35,7 +35,7 @@ class ResultWidget extends StatelessWidget {
           alignment: Alignment.center,
           height: 60,
           child: Text(
-            loadingText,
+            'işleniyor',
             // style: fit(
             //   tsLabel2_350,
             //   tsLabel2_450,
@@ -57,7 +57,8 @@ class ResultWidget extends StatelessWidget {
     );
   }
 
-  Widget done() {
+  Widget done(BuildContext context) {
+    _packet2provider = Provider.of<Packet2Provider>(context, listen: false);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
@@ -72,7 +73,7 @@ class ResultWidget extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'Test Sonuç',
+                  _packet2provider.packet2responseModel.resultText,
                   // _qualityProvider.resultText,
                   textAlign: TextAlign.center,
                   // style: fit(

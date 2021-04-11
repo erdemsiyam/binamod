@@ -9,7 +9,6 @@ class DotsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     dotsProvider = Provider.of<DotsProvider>(context);
-    print('calisti');
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -30,7 +29,7 @@ class DotsWidget extends StatelessWidget {
       dotsProvider.answerStates
           .addAll(List<AnswerState>.generate(7, (i) => AnswerState.INIT));
     }
-
+    print(dots.length);
     for (int i = 0; i < dotsProvider.seenStates.length; i++) {
       seenState = dotsProvider.seenStates[i];
       answerState = dotsProvider.answerStates[i];

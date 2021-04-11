@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 class ResultWidget extends StatelessWidget {
   // QualityProvider _qualityProvider;
   Packet2Provider _packet2provider;
-  @override
-  // double shortestSide;
-
+  Function onReset;
+  ResultWidget({
+    @required this.onReset,
+  });
   @override
   Widget build(BuildContext context) {
     // _qualityProvider = context.watch<QualityProvider>();
@@ -151,7 +152,8 @@ class ResultWidget extends StatelessWidget {
             color: Colors.white,
           ),
           onPressed: () {
-            // _qualityProvider.reset();
+            onReset.call();
+            _packet2provider.reset();
           },
         ),
       ],

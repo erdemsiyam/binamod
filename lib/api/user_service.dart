@@ -50,6 +50,16 @@ class UserService {
   packet1Request() {}
   Future<Packet2ResponseModel> packet2Request(
       Packet2RequestModel packet2requestModel) async {
+    // TODO login sayfası yapılması durumunda bu kaldırılmalı
+    if (userResponseModel == null) {
+      await UserService().login(
+        UserRequestModel(
+          username: 'test_user_81',
+          password: '123',
+        ),
+      );
+    }
+
     Packet2ResponseModel packet2responseModel;
     final headers = {
       HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',

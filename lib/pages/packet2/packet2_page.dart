@@ -39,12 +39,13 @@ class Packet2Page extends StatelessWidget {
             tileMode: TileMode.clamp,
           ),
         ),
-        child: dynamicPart(),
+        child: dynamicPart(context),
       ),
     );
   }
 
   void fillPages() {
+    pages.clear();
     pages.add(
       QuestionWidget(
         iconData: Icons.local_convenience_store,
@@ -123,19 +124,21 @@ class Packet2Page extends StatelessWidget {
     );
   }
 
-  Widget dynamicPart() {
+  Widget dynamicPart(BuildContext context) {
     switch (packet2provider.packet2State) {
       case Packet2State.INIT:
         return questionsWidget();
       case Packet2State.LOADING:
-        // TODO: Handle this case.
-        return CircularProgressIndicator();
-        break;
+        return loadingWidget();
       case Packet2State.FAIL:
-        // TODO: Handle this case.
-        return Container(child: Text('Hata'));
+        return failWidget();
       case Packet2State.DONE:
-        return ResultWidget();
+        return ResultWidget(
+          onReset: () {
+            dotsProvider.updateDots(0, [], []);
+            fillPages();
+          },
+        );
     }
     return Container();
   }
@@ -172,6 +175,32 @@ class Packet2Page extends StatelessWidget {
     );
   }
 
+  Widget loadingWidget() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget failWidget() {
+    return Column(
+      children: [
+        Text('Bazı hatalar meydana geldi.'),
+        IconButton(
+          // Result sayfasından çalındı
+          icon: Icon(
+            Icons.refresh,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            dotsProvider.updateDots(0, [], []);
+            fillPages();
+            packet2provider.reset();
+          },
+        ),
+      ],
+    );
+  }
+
   void updateSeenStates(int index) {
     pages.where((x) => x.seenState == SeenState.NOW).first.seenState =
         SeenState.SEEN;
@@ -182,7 +211,20 @@ class Packet2Page extends StatelessWidget {
     bool isDone =
         pages.where((x) => x.child.answerState == AnswerState.INIT).length == 0;
     if (isDone) {
-      packet2provider.sendQualityAnswers();
+      packet2provider.sendQualityAnswers(
+        longitude: 123, // TODO homeproviderden gelecek
+        latitude: 123,
+        age: (pages[0].child as QuestionNumberWidget).selectedValue,
+        floors: (pages[1].child as QuestionNumberWidget).selectedValue,
+        height: (pages[2].child as QuestionNumberWidget).selectedValue,
+        corrosion: (pages[3].child as QuestionYesNoWidget).answerState ==
+            AnswerState.YES,
+        area: (pages[4].child as QuestionNumberWidget).selectedValue,
+        shop: (pages[5].child as QuestionYesNoWidget).answerState ==
+            AnswerState.YES,
+        contiguous: (pages[6].child as QuestionYesNoWidget).answerState ==
+            AnswerState.YES,
+      );
     }
     return isDone;
   }

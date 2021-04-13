@@ -1,4 +1,3 @@
-import 'package:binamod/pages/login/widget/init_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginErrorWidget extends StatelessWidget {
@@ -8,8 +7,7 @@ class LoginErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        InitWidget(),
-        Text('Wrong Password'),
+        Text(errorMessage),
       ],
     );
   }

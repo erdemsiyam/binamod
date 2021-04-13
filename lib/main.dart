@@ -18,6 +18,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Josefin',
+
+        // primaryColor: Colors.blue,
+        // textTheme: Theme.of(context).textTheme.apply(
+        //       bodyColor: Colors.blue,
+        //     ),
       ),
       home: ChangeNotifierProvider<AuthProvider>(
         create: (_) => AuthProvider(),
@@ -32,18 +37,18 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthProvider _authProvider = Provider.of<AuthProvider>(context);
     // Fake
-    return ChangeNotifierProvider<HomeProvider>(
-      create: (_) => HomeProvider(),
-      child: HomePage(),
+    return ChangeNotifierProvider<LoginProvider>(
+      create: (_) => LoginProvider(),
+      child: LoginPage(),
     );
     // Real
-    switch (_authProvider.authEnum) {
-      case AuthEnum.NOT:
+    switch (_authProvider.authState) {
+      case AuthState.LOGIN:
         return ChangeNotifierProvider<LoginProvider>(
           create: (_) => LoginProvider(),
           child: LoginPage(),
         );
-      case AuthEnum.DONE:
+      case AuthState.DONE:
         return ChangeNotifierProvider<HomeProvider>(
           create: (_) => HomeProvider(),
           child: HomePage(),

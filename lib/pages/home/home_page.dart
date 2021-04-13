@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
   HomeProvider _homeProvider;
   @override
   Widget build(BuildContext context) {
-    _homeProvider = Provider.of<HomeProvider>(context);
+    _homeProvider = Provider.of<HomeProvider>(context, listen: false);
     // _homeProvider.pageController = pageController;
     return PageView(
       physics: NeverScrollableScrollPhysics(),
@@ -26,21 +26,15 @@ class HomePage extends StatelessWidget {
       scrollDirection: Axis.vertical,
       controller: pageController,
       children: [
-        // TODO alttakini geri aç
+        // Paket 1 // TODO geri aç
         // ChangeNotifierProvider<Packet1Provider>(
         //   create: (_) => Packet1Provider(),
         //   child: Packet1Page(pageController),
         // ),
 
-        // ChangeNotifierProvider<Packet2Provider>(
-        //   create: (_) => Packet2Provider(),
-        //   child: Packet2Page(),
-        // ),
-
+        // Paket 2
         MultiProvider(
           providers: [
-            // Provider<Packet2Provider>(create: (_) => Packet2Provider()),
-            // Provider<DotsProvider>(create: (_) => DotsProvider()),
             ChangeNotifierProvider<Packet2Provider>(
                 create: (_) => Packet2Provider()),
             ChangeNotifierProvider<DotsProvider>(create: (_) => DotsProvider()),

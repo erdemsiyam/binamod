@@ -57,6 +57,14 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - asset/images/map_sign.svg
+    - asset/images/auth/building1.svg
+    - asset/images/auth/cloud1.svg
+    - asset/images/auth/cloud2.svg
+    - asset/images/auth/cloud3.svg
+    - asset/images/auth/facebook.svg
+    - asset/images/auth/google.svg
+    - asset/images/auth/twitter.svg
+    - asset/images/auth/linkedin.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -1,9 +1,14 @@
+import 'package:binamod/api/user_service.dart';
+import 'package:binamod/model/user_request_model.dart';
+import 'package:binamod/model/user_response_model.dart';
 import 'package:flutter/material.dart';
 
 enum LoginState { INIT, LOADING, WRONG_PASSWORD, SERVER_ERROR, DONE }
 
 class LoginProvider with ChangeNotifier {
   LoginState _loginState = LoginState.INIT;
+  String username;
+  String password;
   set loginState(val) {
     if (val != _loginState) {
       _loginState = val;
@@ -14,28 +19,28 @@ class LoginProvider with ChangeNotifier {
   get loginState => _loginState;
 
   Future<bool> login() async {
-    //   loginEnum = LoginEnum.LOADING;
-    //   notifyListeners();
-    //   switch ((await UserService()
-    //           .login(UserRequestModel(username: '', password: '')))
-    //       .httpStatus) {
-    //     case 200:
-    //       loginEnum = LoginEnum.DONE;
-    //       notifyListeners();
-    //       return true;
-    //     case 400:
-    //     case 401:
-    //     case 402:
-    //       loginEnum = LoginEnum.WRONG_PASSWORD;
-    //       notifyListeners();
-    //       return false;
-    //     case 404:
-    //     case 500:
-    //       loginEnum = LoginEnum.SERVER_ERROR;
-    //       notifyListeners();
-    //       return false;
-    //   }
-    // TODO yapılmalı
-    return true;
+    loginState = LoginState.LOADING;
+    UserResponseModel userResponseModel = await UserService().login(
+      UserRequestModel(
+        username: this.username,
+        password: this.password,
+      ),
+    );
+    if (userResponseModel == null) {
+      loginState = LoginState.SERVER_ERROR;
+      return false;
+    }
+    switch (userResponseModel.httpStatus) {
+      case 200:
+        loginState = LoginState.DONE;
+        return true;
+      case 400:
+      case 401:
+        loginState = LoginState.WRONG_PASSWORD;
+        return false;
+      default:
+        loginState = LoginState.SERVER_ERROR;
+        return false;
+    }
   }
 }

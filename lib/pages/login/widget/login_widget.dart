@@ -1,82 +1,91 @@
+import 'package:binamod/providers/auth_provider.dart';
+import 'package:binamod/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:binamod/utils/context_extension.dart';
+import 'package:provider/provider.dart';
 
 class LoginWidget extends StatelessWidget {
+  LoginProvider loginProvider;
+  AuthProvider authProvider;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.teal,
-      child: Column(
-        children: [
-          forgotPasswordButton(),
-          // SizedBox(height: shortestSide / 50),
-          loginButton(),
-          // SizedBox(height: shortestSide / 20),
-          socialSeparate(),
-          // SizedBox(height: shortestSide / 20),
-          socialLoginButtons(),
-          // SizedBox(height: shortestSide / 20),
-        ],
-      ),
+    loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    authProvider = Provider.of<AuthProvider>(context, listen: false);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(flex: 1, child: forgotPasswordButton(context)),
+        // SizedBox(height: shortestSide / 50),
+        Flexible(flex: 2, child: loginButton(context)),
+        // SizedBox(height: shortestSide / 20),
+        Flexible(flex: 1, child: socialSeparate(context)),
+        // SizedBox(height: shortestSide / 20),
+        Flexible(flex: 2, child: socialLoginButtons(context)),
+        // SizedBox(height: shortestSide / 20),
+      ],
     );
   }
 
-  Widget forgotPasswordButton() {
+  Widget forgotPasswordButton(BuildContext context) {
     return Container(
       alignment: Alignment.centerRight,
       child: Padding(
         padding: EdgeInsets.only(
-          right: 60, //fit(38, 60, 80, 100),
+          right: context.dynamicWidth(0.146), //fit(38, 60, 80, 100),
         ),
         child: TextButton(
           child: Text(
             "Şifremi Unuttum",
-            // style: fit(
-            //   tsTextButton1_350,
-            //   tsTextButton1_450,
-            //   tsTextButton1_550,
-            //   tsTextButton1_bigest,
-            // ),
+            style: context.theme.textTheme.bodyText2.copyWith(
+              color: Colors.grey[700],
+            ),
           ),
           onPressed: () {
-            // TODO
+            // TODO şifre unuttum
           },
         ),
       ),
     );
   }
 
-  Widget loginButton() {
+  Widget loginButton(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: 80, //fit(60, 80, 110, 140),
-        vertical: 0, //fit(0, 0, 20, 30),
+        horizontal: context.dynamicWidth(0.2), //fit(60, 80, 110, 140),
+        // vertical: 0, //fit(0, 0, 20, 30),
       ),
       child: RaisedButton(
         padding: EdgeInsets.symmetric(
-          vertical: 20, // fit(14, 20, 26, 32),
+          vertical: context.dynamicHeight(0.024), // fit(14, 20, 26, 32),
         ),
         child: Text(
           "GİRİŞ",
-          // style: fit(
-          //   tsButton1_350,
-          //   tsButton1_450,
-          //   tsButton1_550,
-          //   tsButton1_bigest,
-          // ),
+          style: context.theme.textTheme.subtitle1.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        // color: Theme.of(context).primaryColor,
+        color: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(60.0),
+          borderRadius: BorderRadius.circular(context.dynamicHeight(0.061)),
         ),
         onPressed: () async {
-          // await _authProvider.login(context);
+          loginProvider.login().then(
+            (value) {
+              if (value) {
+                authProvider.authState = AuthState.DONE;
+              }
+            },
+          );
         },
       ),
     );
   }
 
-  Widget socialSeparate() {
+  Widget socialSeparate(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
@@ -84,41 +93,38 @@ class LoginWidget extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(
-              left: 30, //fit(20, 30, 40, 50),
-              right: 20, //fit(15, 20, 25, 30),
+              left: context.dynamicWidth(0.075), //fit(20, 30, 40, 50),
+              right: context.dynamicWidth(0.05), //fit(15, 20, 25, 30),
             ),
             child: Divider(
-                // color: Theme.of(context).disabledColor,
-                ),
+              color: Colors.grey[700],
+            ),
           ),
         ),
         Text(
           "Sosyal Medya İle",
           textAlign: TextAlign.center,
-          // style: fit(
-          //   tsKucukAciklama1_350,
-          //   tsKucukAciklama1_450,
-          //   tsKucukAciklama1_550,
-          //   tsKucukAciklama1_bigest,
-          // ),
+          style: context.theme.textTheme.bodyText1.copyWith(
+            color: Colors.grey[400],
+            fontWeight: FontWeight.bold,
+          ),
         ),
         Expanded(
           child: Padding(
             padding: EdgeInsets.only(
-              right: 30, //fit(20, 30, 40, 50),
-              left: 20, //fit(15, 20, 25, 30),
+              right: context.dynamicWidth(0.075), //fit(20, 30, 40, 50),
+              left: context.dynamicWidth(0.05), //fit(15, 20, 25, 30),
             ),
             child: Divider(
-                // color: Theme.of(context).disabledColor,
-                ),
+              color: Colors.grey[700],
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget socialLoginButtons() {
-    double logoSize = 20;
+  Widget socialLoginButtons(BuildContext context) {
     final String logoFacebook = 'asset/images/auth/facebook.svg';
     final String logoGoogle = 'asset/images/auth/google.svg';
     final String logoTwitter = 'asset/images/auth/twitter.svg';
@@ -131,49 +137,32 @@ class LoginWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: [
-        SizedBox(width: 30),
-        InkWell(
-          child: SvgPicture.asset(
-            logoFacebook,
-            semanticsLabel: labelFacebook,
-            width: logoSize,
-          ),
-          onTap: () {
-            // TODO
-          },
-        ),
-        InkWell(
-          child: SvgPicture.asset(
-            logoGoogle,
-            semanticsLabel: labelGoogle,
-            width: logoSize,
-          ),
-          onTap: () {
-            // TODO
-          },
-        ),
-        InkWell(
-          child: SvgPicture.asset(
-            logoTwitter,
-            semanticsLabel: labelTwitter,
-            width: logoSize,
-          ),
-          onTap: () {
-            // TODO
-          },
-        ),
-        InkWell(
-          child: SvgPicture.asset(
-            logoLinkedin,
-            semanticsLabel: labelLinkedin,
-            width: logoSize,
-          ),
-          onTap: () {
-            // TODO
-          },
-        ),
-        SizedBox(width: 30),
+        context.emptyWidgetWidthHigh,
+        iconButton(context, logoFacebook, labelFacebook, () {}),
+        iconButton(context, logoGoogle, labelGoogle, () {}),
+        iconButton(context, logoTwitter, labelTwitter, () {}),
+        iconButton(context, logoLinkedin, labelLinkedin, () {}),
+        context.emptyWidgetWidthHigh,
       ],
+    );
+  }
+
+  Widget iconButton(
+    BuildContext context,
+    String logoLinkedin,
+    String labelLinkedin,
+    Function onTap,
+  ) {
+    return Flexible(
+      flex: 1,
+      child: InkWell(
+        child: SvgPicture.asset(
+          logoLinkedin,
+          semanticsLabel: labelLinkedin,
+          width: context.dynamicWidth(0.1),
+        ),
+        onTap: onTap,
+      ),
     );
   }
 }

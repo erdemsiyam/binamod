@@ -1,5 +1,7 @@
+import 'package:binamod/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:binamod/utils/context_extension.dart';
+import 'package:provider/provider.dart';
 
 class PasswordTextWidget extends StatefulWidget {
   @override
@@ -8,6 +10,7 @@ class PasswordTextWidget extends StatefulWidget {
 
 class _PasswordTextWidgetState extends State<PasswordTextWidget> {
   FocusNode _fs1 = FocusNode();
+  LoginProvider loginProvider;
   bool _isPasswordHide = true;
   final String inputHint = 'Password';
   @override
@@ -21,6 +24,7 @@ class _PasswordTextWidgetState extends State<PasswordTextWidget> {
   // TODO username ile password aynı widget olamaz mı
   @override
   Widget build(BuildContext context) {
+    loginProvider = Provider.of<LoginProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: context.dynamicWidth(0.09), //fit(30, 40, 60, 80),
@@ -31,7 +35,7 @@ class _PasswordTextWidgetState extends State<PasswordTextWidget> {
           cursorHeight: 20, //fit(15, 20, 25, 25),
           focusNode: _fs1,
           onChanged: (val) {
-            // _authProvider.password = val;
+            loginProvider.password = val;
           },
           style: (_fs1.hasFocus)
               ? context.theme.textTheme.bodyText2.copyWith(

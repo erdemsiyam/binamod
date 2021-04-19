@@ -28,3 +28,15 @@ extension EmptyWidget on BuildContext {
   Widget get emptyWidgetWidthMedium => SizedBox(width: mediumValue);
   Widget get emptyWidgetWidthHigh => SizedBox(width: highValue);
 }
+
+extension FontSize on BuildContext {
+  double get fontSize100 => dynamicHeight(0.0146); // 12
+  double get fontSize200 => dynamicHeight(0.0170); // 14
+  double get fontSize300 => dynamicHeight(0.0195); // 16
+  double get fontSize400 => dynamicHeight(0.0219); // 18
+  double get fontSize500 => dynamicHeight(0.0244); // 20
+  double get fontSize600 => dynamicHeight(0.0268); // 22
+  double get fontSize700 => dynamicHeight(0.0292); // 24
+  double get fontSize800 => dynamicHeight(0.0317); // 26
+  double get fontSize900 => dynamicHeight(0.0341); // 28
+}

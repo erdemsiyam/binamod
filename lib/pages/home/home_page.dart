@@ -26,11 +26,11 @@ class HomePage extends StatelessWidget {
       scrollDirection: Axis.vertical,
       controller: pageController,
       children: [
-        // Paket 1 // TODO geri aç
-        // ChangeNotifierProvider<Packet1Provider>(
-        //   create: (_) => Packet1Provider(),
-        //   child: Packet1Page(pageController),
-        // ),
+        // Paket 1
+        ChangeNotifierProvider<Packet1Provider>(
+          create: (_) => Packet1Provider(),
+          child: Packet1Page(pageController),
+        ),
 
         // Paket 2
         MultiProvider(

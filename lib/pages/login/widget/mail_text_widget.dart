@@ -1,5 +1,7 @@
+import 'package:binamod/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:binamod/utils/context_extension.dart';
+import 'package:provider/provider.dart';
 
 class MailTextWidget extends StatefulWidget {
   @override
@@ -8,6 +10,7 @@ class MailTextWidget extends StatefulWidget {
 
 class _MailTextWidgetState extends State<MailTextWidget> {
   FocusNode _fs1 = FocusNode();
+  LoginProvider loginProvider;
   final String inputHint = 'E-Mail';
   @override
   void initState() {
@@ -19,6 +22,7 @@ class _MailTextWidgetState extends State<MailTextWidget> {
 
   @override
   Widget build(BuildContext context) {
+    loginProvider = Provider.of<LoginProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: context.dynamicWidth(0.09), //fit(30, 40, 60, 80),
@@ -29,7 +33,7 @@ class _MailTextWidgetState extends State<MailTextWidget> {
           cursorHeight: context.dynamicHeight(0.024), //fit(15, 20, 25, 25),
           focusNode: _fs1,
           onChanged: (val) {
-            // _authProvider.username = val;
+            loginProvider.username = val;
           },
           style: (_fs1.hasFocus)
               ? context.theme.textTheme.bodyText2.copyWith(

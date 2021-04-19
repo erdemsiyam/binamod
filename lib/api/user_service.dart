@@ -25,7 +25,7 @@ class UserService {
   Future<UserResponseModel> login(UserRequestModel userRequestModel) async {
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     Response response = await http.post(
-      url + '/auth/token/',
+      Uri.parse(url + '/auth/token/'),
       headers: headers,
       body: userRequestModel.toJson(),
     );
@@ -67,7 +67,7 @@ class UserService {
       HttpHeaders.authorizationHeader: 'Bearer ${userResponseModel.access}',
     };
     Response response = await http.post(
-      url + '/quality_check/',
+      Uri.parse(url + '/quality_check/'),
       headers: headers,
       body: packet2requestModel.toJson(),
     );

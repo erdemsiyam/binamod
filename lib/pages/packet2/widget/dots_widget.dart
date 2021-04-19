@@ -3,6 +3,7 @@ import 'package:binamod/pages/packet2/enum/seen_enum.dart';
 import 'package:binamod/providers/dots_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:binamod/utils/context_extension.dart';
 
 class DotsWidget extends StatelessWidget {
   DotsProvider dotsProvider;
@@ -10,16 +11,20 @@ class DotsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     dotsProvider = Provider.of<DotsProvider>(context);
     return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: _dots(),
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: _dots(context),
     );
   }
 
-  List<Widget> _dots() {
+  List<Widget> _dots(BuildContext context) {
     List<Widget> dots = [];
     SeenState seenState;
     AnswerState answerState;
+
+    // Boşluk Widgetleri
+    dots.add(context.emptyWidgetWidthHigh);
+    dots.add(context.emptyWidgetWidthHigh);
 
     // İlk açılış için ilk veriler verilir.
     if (dotsProvider.seenStates.length == 0) {
@@ -43,10 +48,16 @@ class DotsWidget extends StatelessWidget {
                   : (seenState == SeenState.NOT || seenState == SeenState.NOW)
                       ? Colors.blue[800]
                       : Colors.grey,
-          radius: (seenState == SeenState.NOW) ? 12 : 8,
+          radius: (seenState == SeenState.NOW)
+              ? context.dynamicShortest(0.0243)
+              : context.dynamicShortest(0.0146),
         ),
       );
     }
+
+    // Boşluk Widgetleri
+    dots.add(context.emptyWidgetWidthHigh);
+    dots.add(context.emptyWidgetWidthHigh);
     return dots;
   }
 }

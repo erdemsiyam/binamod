@@ -9,6 +9,7 @@ import 'package:binamod/providers/dots_provider.dart';
 import 'package:binamod/providers/packet2_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:binamod/utils/context_extension.dart';
 
 class Packet2Page extends StatelessWidget {
   Packet2Provider packet2provider;
@@ -80,6 +81,7 @@ class Packet2Page extends StatelessWidget {
           maxValue: 60,
           minValue: 3,
           stepValue: 3,
+          unit: 'm',
         ),
       ),
     );
@@ -129,9 +131,9 @@ class Packet2Page extends StatelessWidget {
       case Packet2State.INIT:
         return questionsWidget();
       case Packet2State.LOADING:
-        return loadingWidget();
+        return loadingWidget(context);
       case Packet2State.FAIL:
-        return failWidget();
+        return failWidget(context);
       case Packet2State.DONE:
         return ResultWidget(
           onReset: () {
@@ -148,16 +150,15 @@ class Packet2Page extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        SizedBox(height: 60),
+        Flexible(flex: 1, child: Container()),
         // (PageView)
-        Expanded(
-          flex: 10,
+        Flexible(
+          flex: 8,
           child: PageView.builder(
             physics: AlwaysScrollableScrollPhysics(),
             scrollDirection: Axis.horizontal,
             controller: pageController,
             onPageChanged: (int index) {
-              print('pageview 1. sayfa');
               updateSeenStates(index);
               if (!doneControl()) {
                 updateDots(index);
@@ -167,7 +168,7 @@ class Packet2Page extends StatelessWidget {
             itemBuilder: (ctx, i) => pages[i],
           ),
         ),
-        Expanded(
+        Flexible(
           flex: 1,
           child: DotsWidget(),
         ),
@@ -175,16 +176,46 @@ class Packet2Page extends StatelessWidget {
     );
   }
 
-  Widget loadingWidget() {
-    return Center(
-      child: CircularProgressIndicator(),
+  Widget loadingWidget(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Center(
+          child: Text(
+            "İşleniyor...",
+            style: context.theme.textTheme.headline5.copyWith(
+              color: Colors.blue[900],
+            ),
+          ),
+        ),
+        Center(
+          child: CircularProgressIndicator(
+            backgroundColor: Colors.blue[600],
+          ),
+        ),
+      ],
     );
+    // Center(
+    //   child: CircularProgressIndicator(),
+    // );
   }
 
-  Widget failWidget() {
+  Widget failWidget(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Bazı hatalar meydana geldi.'),
+        Center(
+          child: Text(
+            "Bazı hatalar meydana geldi.",
+            style: context.theme.textTheme.headline5.copyWith(
+              color: Colors.red[400],
+            ),
+          ),
+        ),
         IconButton(
           // Result sayfasından çalındı
           icon: Icon(

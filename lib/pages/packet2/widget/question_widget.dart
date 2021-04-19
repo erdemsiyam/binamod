@@ -1,6 +1,7 @@
 import 'package:binamod/pages/packet2/enum/answer_enum.dart';
 import 'package:binamod/pages/packet2/enum/seen_enum.dart';
 import 'package:flutter/material.dart';
+import 'package:binamod/utils/context_extension.dart';
 
 abstract class IQuestionChildWidget extends Widget {
   AnswerState answerState;
@@ -23,33 +24,39 @@ class QuestionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          height: 200,
-          alignment: Alignment.center,
-          child: Container(
-            padding: EdgeInsets.all(26),
-            decoration: BoxDecoration(
-              color: Colors.white30,
-              shape: BoxShape.circle,
-            ),
+        Flexible(
+          flex: 5,
+          child: CircleAvatar(
+            maxRadius: context.dynamicHeight(0.122),
+            backgroundColor: Colors.white30,
             child: Icon(
               iconData,
-              size: 130,
+              size: context.dynamicHeight(0.17),
               color: Colors.blue,
             ),
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          height: 120,
+        Flexible(
+          flex: 1,
           child: Text(
             title,
             textAlign: TextAlign.center,
+            style: context.theme.textTheme.headline5.copyWith(
+              color: Colors.blue[900],
+            ),
           ),
         ),
-        child,
+        Flexible(
+          flex: 6,
+          child: Column(
+            children: [
+              child,
+            ],
+          ),
+        ),
       ],
     );
   }

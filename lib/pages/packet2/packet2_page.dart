@@ -187,6 +187,7 @@ class Packet2Page extends StatelessWidget {
             "İşleniyor...",
             style: context.theme.textTheme.headline5.copyWith(
               color: Colors.blue[900],
+              fontSize: context.dynamicShortest(0.058),
             ),
           ),
         ),
@@ -213,6 +214,7 @@ class Packet2Page extends StatelessWidget {
             "Bazı hatalar meydana geldi.",
             style: context.theme.textTheme.headline5.copyWith(
               color: Colors.red[400],
+              fontSize: context.dynamicShortest(0.058),
             ),
           ),
         ),

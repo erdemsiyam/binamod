@@ -40,6 +40,7 @@ class LoginWidget extends StatelessWidget {
           child: Text(
             "Şifremi Unuttum",
             style: context.theme.textTheme.bodyText2.copyWith(
+              fontSize: context.dynamicShortest(0.034),
               color: Colors.grey[700],
             ),
           ),
@@ -66,6 +67,7 @@ class LoginWidget extends StatelessWidget {
           style: context.theme.textTheme.subtitle1.copyWith(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontSize: context.dynamicShortest(0.04),
           ),
         ),
         color: Theme.of(context).primaryColor,
@@ -107,6 +109,7 @@ class LoginWidget extends StatelessWidget {
           style: context.theme.textTheme.bodyText1.copyWith(
             color: Colors.grey[400],
             fontWeight: FontWeight.bold,
+            fontSize: context.dynamicShortest(0.033),
           ),
         ),
         Expanded(

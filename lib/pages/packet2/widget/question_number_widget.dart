@@ -47,9 +47,11 @@ class _QuestionNumberWidgetState extends State<QuestionNumberWidget> {
               haptics: true,
               textStyle: context.theme.textTheme.headline6.copyWith(
                 color: Colors.grey[300],
+                fontSize: context.dynamicShortest(0.05),
               ),
               selectedTextStyle: context.theme.textTheme.headline4.copyWith(
                 color: Colors.white,
+                fontSize: context.dynamicShortest(0.08),
               ),
               onChanged: (numy) {
                 setState(() {
@@ -65,6 +67,7 @@ class _QuestionNumberWidgetState extends State<QuestionNumberWidget> {
                   widget.unit ?? '',
                   style: context.theme.textTheme.headline5.copyWith(
                     color: Colors.white,
+                    fontSize: context.dynamicShortest(0.058),
                   ),
                 ),
               ),

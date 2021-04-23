@@ -16,14 +16,17 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // return materialApp(context);
-    return DevicePreview(
-      enabled: true,
-      builder: (context) => materialApp(context),
-    );
+    return MyMaterialApp();
+    // return DevicePreview(
+    //   enabled: true,
+    //   builder: (context) => MyMaterialApp(),
+    // );
   }
+}
 
-  Widget materialApp(BuildContext context) {
+class MyMaterialApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
@@ -31,42 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Josefin',
         primaryColor: Color(0xFF3889EC),
-        // primaryColor: Colors.blue,
-        // textTheme: Theme.of(context).textTheme.apply(
-        //       bodyColor: Colors.blue,
-        //     ),
-        textTheme: context.theme.textTheme.copyWith(
-          caption: context.theme.textTheme.caption.copyWith(
-            fontSize: context.fontSize100,
-          ),
-          bodyText1: context.theme.textTheme.bodyText1.copyWith(
-            fontSize: context.fontSize200,
-          ),
-          bodyText2: context.theme.textTheme.bodyText2.copyWith(
-            fontSize: context.fontSize200,
-          ),
-          subtitle1: context.theme.textTheme.subtitle1.copyWith(
-            fontSize: context.fontSize300,
-          ),
-          subtitle2: context.theme.textTheme.subtitle2.copyWith(
-            fontSize: context.fontSize300,
-          ),
-          button: context.theme.textTheme.button.copyWith(
-            fontSize: context.fontSize500,
-          ),
-          headline6: context.theme.textTheme.headline6.copyWith(
-            fontSize: context.fontSize600,
-          ),
-          headline5: context.theme.textTheme.headline5.copyWith(
-            fontSize: context.fontSize700,
-          ),
-          headline4: context.theme.textTheme.headline4.copyWith(
-            fontSize: context.fontSize800,
-          ),
-          headline3: context.theme.textTheme.headline3.copyWith(
-            fontSize: context.fontSize900,
-          ),
-        ),
+        // textTheme: textTheme(context),
       ),
       home: ChangeNotifierProvider<AuthProvider>(
         create: (_) => AuthProvider(),
@@ -74,6 +42,21 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+
+  // TextTheme textTheme(BuildContext context) {
+  //   return TextTheme(
+  //     caption: TextStyle(fontSize: context.fontSize100),
+  //     bodyText1: TextStyle(fontSize: context.fontSize200),
+  //     bodyText2: TextStyle(fontSize: context.fontSize200),
+  //     subtitle1: TextStyle(fontSize: context.fontSize300),
+  //     subtitle2: TextStyle(fontSize: context.fontSize300),
+  //     button: TextStyle(fontSize: context.fontSize500),
+  //     headline6: TextStyle(fontSize: context.fontSize600),
+  //     headline5: TextStyle(fontSize: context.fontSize700),
+  //     headline4: TextStyle(fontSize: context.fontSize800),
+  //     headline3: TextStyle(fontSize: context.fontSize900),
+  //   );
+  // }
 }
 
 class MainPage extends StatelessWidget {
@@ -102,6 +85,8 @@ class MainPage extends StatelessWidget {
           create: (_) => HomeProvider(),
           child: HomePage(),
         );
+      default:
+        return Scaffold();
     }
   }
 }

@@ -38,8 +38,11 @@ class _MailTextWidgetState extends State<MailTextWidget> {
           style: (_fs1.hasFocus)
               ? context.theme.textTheme.bodyText2.copyWith(
                   color: context.theme.primaryColor,
+                  fontSize: context.dynamicShortest(0.035),
                 )
-              : context.theme.textTheme.bodyText2,
+              : context.theme.textTheme.bodyText2.copyWith(
+                  fontSize: context.dynamicShortest(0.035),
+                ),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
               vertical: context.dynamicHeight(0.024), //fit(0, 20, 30, 40),

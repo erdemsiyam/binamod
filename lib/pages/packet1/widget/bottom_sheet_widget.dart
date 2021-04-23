@@ -7,7 +7,7 @@ class BottomSheetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: context.dynamicHeight(0.4),
+      height: context.dynamicHeight(0.45),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(context.dynamicShortest(0.0488)),
@@ -25,10 +25,10 @@ class BottomSheetWidget extends StatelessWidget {
               child: Text(
                 'Olası Hasar',
                 textAlign: TextAlign.center,
-                style: context.theme.textTheme.bodyText1.copyWith(
+                style: context.theme.textTheme.headline6.copyWith(
                   fontWeight: FontWeight.bold,
                   color: context.theme.primaryColor,
-                  // fontSize: context.dynamicShortest(0.048),
+                  fontSize: context.dynamicShortest(0.048),
                 ),
               ),
             ),
@@ -117,15 +117,6 @@ class BottomSheetWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget cardText(String text) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(text),
       ),
     );
   }

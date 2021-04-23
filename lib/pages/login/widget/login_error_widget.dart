@@ -1,6 +1,7 @@
 import 'package:binamod/providers/login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:binamod/utils/context_extension.dart';
 
 class LoginErrorWidget extends StatelessWidget {
   final String errorMessage;
@@ -11,7 +12,12 @@ class LoginErrorWidget extends StatelessWidget {
     loginProvider = Provider.of<LoginProvider>(context, listen: false);
     return Column(
       children: [
-        Text(errorMessage),
+        Text(
+          errorMessage,
+          style: TextStyle(
+            fontSize: context.dynamicShortest(0.04),
+          ),
+        ),
         IconButton(
           icon: Icon(Icons.refresh),
           onPressed: () {

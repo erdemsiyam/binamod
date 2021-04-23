@@ -65,6 +65,7 @@ class ResultWidget extends StatelessWidget {
       textAlign: TextAlign.center,
       style: context.theme.textTheme.headline5.copyWith(
         color: Colors.blue[900],
+        fontSize: context.dynamicShortest(0.058),
       ),
     );
   }
@@ -75,6 +76,7 @@ class ResultWidget extends StatelessWidget {
         'Detay Göster',
         style: context.theme.textTheme.subtitle1.copyWith(
           color: Colors.blue[900],
+          fontSize: context.dynamicShortest(0.038),
         ),
       ),
       style: ElevatedButton.styleFrom(
@@ -147,6 +149,7 @@ class ResultWidget extends StatelessWidget {
                       text ?? "",
                       style: context.theme.textTheme.subtitle1.copyWith(
                         color: Colors.white,
+                        fontSize: context.dynamicShortest(0.038),
                       ),
                     ),
                     context.emptyWidgetWidthMedium,
@@ -176,7 +179,12 @@ class ResultWidget extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          Text('Hata'),
+          Text(
+            'Hata',
+            style: TextStyle(
+              fontSize: context.dynamicShortest(0.04),
+            ),
+          ),
           resetButton(context),
         ],
       ),

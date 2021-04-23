@@ -46,6 +46,7 @@ class QuestionWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             style: context.theme.textTheme.headline5.copyWith(
               color: Colors.blue[900],
+              fontSize: context.dynamicShortest(0.06),
             ),
           ),
         ),

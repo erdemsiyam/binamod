@@ -65,6 +65,7 @@ class _Packet1PageState extends State<Packet1Page> {
                     style: context.theme.textTheme.button.copyWith(
                       color: Colors.blue[600],
                       fontWeight: FontWeight.bold,
+                      fontSize: context.dynamicShortest(0.033),
                     ),
                   ),
                 ),

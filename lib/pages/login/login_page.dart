@@ -97,6 +97,7 @@ class LoginPage extends StatelessWidget {
           textAlign: TextAlign.center,
           style: context.theme.textTheme.headline4.copyWith(
             color: Colors.black87,
+            fontSize: context.dynamicShortest(0.082),
           ),
         ),
         Padding(
@@ -108,8 +109,8 @@ class LoginPage extends StatelessWidget {
             subTitle,
             textAlign: TextAlign.center,
             style: context.theme.textTheme.bodyText2.copyWith(
-                // fontSize: context.dynamicShortest(0.035),
-                ),
+              fontSize: context.dynamicShortest(0.031),
+            ),
           ),
         ),
       ],

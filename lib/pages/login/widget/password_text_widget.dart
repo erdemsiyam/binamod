@@ -40,8 +40,11 @@ class _PasswordTextWidgetState extends State<PasswordTextWidget> {
           style: (_fs1.hasFocus)
               ? context.theme.textTheme.bodyText2.copyWith(
                   color: context.theme.primaryColor,
+                  fontSize: context.dynamicShortest(0.035),
                 )
-              : context.theme.textTheme.bodyText2,
+              : context.theme.textTheme.bodyText2.copyWith(
+                  fontSize: context.dynamicShortest(0.035),
+                ),
           obscureText: _isPasswordHide,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(

@@ -1,10 +1,12 @@
-import 'package:binamod/pages/packet1/widget/bottom_sheet_widget.dart';
+import 'package:binamod/pages/packet1/widget/pointer_widget.dart';
+import 'package:binamod/pages/packet1/widget/request_button_widget.dart';
+import 'package:binamod/providers/packet1_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:binamod/utils/context_extension.dart';
+import 'package:provider/provider.dart';
 
 class Packet1Page extends StatefulWidget {
   PageController pageController;
@@ -14,16 +16,14 @@ class Packet1Page extends StatefulWidget {
 }
 
 class _Packet1PageState extends State<Packet1Page> {
-  final String mapSignLogo = 'asset/images/map_sign.svg';
-  final String mapSignLabel = 'Map Sign Icon';
-
-  Color signColor = Colors.blue;
   double pointerSize;
   double screenX, screenY;
   GoogleMapController mapController;
+  Packet1Provider packet1provider;
 
   @override
   Widget build(BuildContext context) {
+    packet1provider = Provider.of<Packet1Provider>(context, listen: false);
     pointerSize = context.dynamicShortest(0.292);
     screenX = context.dynamicWidth(1);
     screenY = context.dynamicHeight(1);
@@ -44,62 +44,20 @@ class _Packet1PageState extends State<Packet1Page> {
             Positioned(
               top: (screenY / 2) - (pointerSize / 2),
               left: (screenX / 2) - (pointerSize / 2),
-              child: IgnorePointer(
-                child: SvgPicture.asset(
-                  mapSignLogo,
-                  semanticsLabel: mapSignLabel,
-                  width: pointerSize,
-                  color: signColor,
-                ),
-              ),
+              child: PointerWidget(pointerSize: pointerSize),
             ),
             Positioned(
               bottom: context.dynamicHeight(0.025),
               left: context.dynamicWidth(0.171),
               right: context.dynamicWidth(0.171),
-              child: ElevatedButton(
-                child: Padding(
-                  padding: EdgeInsets.all(context.dynamicHeight(0.016)),
-                  child: Text(
-                    'Deprem Tehlikesi',
-                    style: context.theme.textTheme.button.copyWith(
-                      color: Colors.blue[600],
-                      fontWeight: FontWeight.bold,
-                      fontSize: context.dynamicShortest(0.033),
-                    ),
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  textStyle: context.theme.textTheme.subtitle1.copyWith(
-                    color: Colors.white,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      context.dynamicWidth(0.049),
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  setState(() {
-                    signColor = Color(0xffc6211d);
-                  });
-                  showMaterialModalBottomSheet(
-                    expand: false,
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) =>
-                        BottomSheetWidget(widget.pageController),
-                  );
-                },
-              ),
+              child: RequestButtonWidget(pageController: widget.pageController),
             ),
             Positioned(
               top: screenY * 0.75,
               right: screenX * 0.01,
               child: MaterialButton(
                 onPressed: () {
-                  getCurrentLocation();
+                  goToCurrentLocation();
                 },
                 color: Colors.white,
                 textColor: Colors.white,
@@ -124,7 +82,7 @@ class _Packet1PageState extends State<Packet1Page> {
     });
 
     // Get Current Location
-    getCurrentLocation();
+    goToCurrentLocation();
   }
 
   void searchNavigate() {}
@@ -139,10 +97,10 @@ class _Packet1PageState extends State<Packet1Page> {
   }
 
   void _onCameraMove(CameraPosition position) {
-    print(position.target.toString());
+    packet1provider.lastLocation = position.target;
   }
 
-  void getCurrentLocation() async {
+  void goToCurrentLocation() async {
     Location location = new Location();
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -167,13 +125,12 @@ class _Packet1PageState extends State<Packet1Page> {
       }
     }
     location.getLocation().then((value) {
+      packet1provider.lastLocation = LatLng(
+        value.latitude,
+        value.longitude,
+      );
       mapController.moveCamera(
-        CameraUpdate.newLatLng(
-          LatLng(
-            value.latitude,
-            value.longitude,
-          ),
-        ),
+        CameraUpdate.newLatLng(packet1provider.lastLocation),
       );
     });
   }

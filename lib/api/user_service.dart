@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:binamod/model/packet1_request_model.dart';
+import 'package:binamod/model/packet1_response_model.dart';
 import 'package:binamod/model/packet2_request_model.dart';
 import 'package:binamod/model/packet2_response_model.dart';
 import 'package:binamod/model/user_request_model.dart';
@@ -18,14 +20,14 @@ class UserService {
   }
 
   /* Properties */
-  final String url = "https://abdullahcangul3.pythonanywhere.com";
+  String url = "https://binamod.pythonanywhere.com"; // http://10.0.2.2:8000
   UserResponseModel userResponseModel;
 
   /* Methods */
   Future<UserResponseModel> login(UserRequestModel userRequestModel) async {
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     Response response = await http.post(
-      Uri.parse(url + '/auth/token/'),
+      Uri.parse(url + '/api/token/'),
       headers: headers,
       body: userRequestModel.toJson(),
     );
@@ -47,18 +49,49 @@ class UserService {
   }
 
   reToken() {}
-  packet1Request() {}
+
+  Future<Packet1ResponseModel> packet1Request(
+      Packet1RequestModel packet1requestModel) async {
+    Packet1ResponseModel packet1responseModel;
+    final headers = {
+      HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+      HttpHeaders.acceptHeader: 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: 'Bearer ${userResponseModel.access}',
+    };
+    Response response = await http.post(
+      Uri.parse(url + '/api/packet1/'),
+      headers: headers,
+      body: packet1requestModel.toJson(),
+    );
+    switch (response.statusCode) {
+      case 200:
+        packet1responseModel = Packet1ResponseModel.success(
+          httpStatus: 200,
+          // gelen body byte ları utf8 için decode edilir
+          source: utf8.decode(response.bodyBytes),
+        );
+        return packet1responseModel;
+      default:
+        packet1responseModel = Packet1ResponseModel.wrong(
+          httpStatus: response.statusCode,
+          // gelen body byte ları utf8 için decode edilir
+          source: utf8.decode(response.bodyBytes),
+        );
+        return packet1responseModel;
+    }
+  }
+
   Future<Packet2ResponseModel> packet2Request(
       Packet2RequestModel packet2requestModel) async {
     // TODO login sayfası yapılması durumunda bu kaldırılmalı
-    if (userResponseModel == null) {
-      await UserService().login(
-        UserRequestModel(
-          username: 'test_user_81',
-          password: '123',
-        ),
-      );
-    }
+    // if (userResponseModel == null) {
+    //   await UserService().login(
+    //     UserRequestModel(
+    //       username: 'erdem',
+    //       password: '123',
+    //     ),
+    //   );
+    // }
 
     Packet2ResponseModel packet2responseModel;
     final headers = {
@@ -67,7 +100,7 @@ class UserService {
       HttpHeaders.authorizationHeader: 'Bearer ${userResponseModel.access}',
     };
     Response response = await http.post(
-      Uri.parse(url + '/quality_check/'),
+      Uri.parse(url + '/api/packet2/'),
       headers: headers,
       body: packet2requestModel.toJson(),
     );

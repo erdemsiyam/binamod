@@ -7,14 +7,14 @@ enum ResultState { INIT, LOW_RISK, MEDIUM_RISK, HIGH_RISK, VERY_HIGH_RISK }
 class Packet2ResponseModel {
   int httpStatus;
   String detail;
-  String resultText;
+  double weight;
   ResultState result;
   Packet2ResponseModel.success({
     @required this.httpStatus,
     @required String source,
   }) {
     Map<String, dynamic> map = json.decode(source);
-    this.resultText = map['resultText'];
+    this.weight = double.parse(map['weight'].toString());
     switch (map['result']) {
       case 'LOW_RISK':
         this.result = ResultState.LOW_RISK;
@@ -37,6 +37,6 @@ class Packet2ResponseModel {
     @required String source,
   }) {
     Map<String, dynamic> map = json.decode(source);
-    this.detail = map['detail'];
+    this.detail = map['weight'];
   }
 }

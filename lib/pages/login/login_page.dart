@@ -15,7 +15,8 @@ class LoginPage extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.white,
+                  // Colors.white,
+                  Colors.grey[200],
                   Colors.grey[100],
                   Colors.white,
                 ],
@@ -32,7 +33,7 @@ class LoginPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Flexible(flex: 3, child: topLogoWidget(context)),
+                  Flexible(flex: 4, child: topLogoWidget(context)),
                   Flexible(flex: 2, child: sayingWidget(context)),
                   Flexible(flex: 2, child: MailTextWidget()),
                   Flexible(flex: 2, child: PasswordTextWidget()),
@@ -48,7 +49,7 @@ class LoginPage extends StatelessWidget {
 
   // print(context.dynamicWidth(1)); // 411
   // print(context.dynamicHeight(1)); // 820
-  Widget topLogoWidget(BuildContext context) {
+  Widget topLogoWidgetOld(BuildContext context) {
     final String icon1Path = 'asset/images/auth/cloud3.svg';
     final String icon2Path = 'asset/images/auth/building1.svg';
     final String icon3Path = 'asset/images/auth/cloud1.svg';
@@ -86,33 +87,53 @@ class LoginPage extends StatelessWidget {
     );
   }
 
+  Widget topLogoWidget(BuildContext context) {
+    final String logoPath = 'asset/images/auth/logo.svg';
+    final String logoLabel = 'Binamod';
+    return Padding(
+      padding: EdgeInsets.only(top: context.dynamicShortest(0.18)),
+      child: FittedBox(
+        child: SvgPicture.asset(
+          logoPath,
+          // semanticsLabel: logoLabel,
+          matchTextDirection: true,
+          // fit: BoxFit.cover,
+          // width: context.dynamicShortest(0.292), // fit(80, 120, 150, 180),
+          alignment: Alignment.bottomCenter,
+        ),
+      ),
+    );
+  }
+
   Widget sayingWidget(BuildContext context) {
-    final String title = 'Hayatın Değerli.';
+    final String title = 'b i n a m o d'; // Hayatın Değerli.
     final String subTitle =
         'Sevdikleriniz ile birlikte daha fazla vakit gerçimeniz için çalışıyoruz...';
     return Column(
       children: [
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: context.theme.textTheme.headline4.copyWith(
-            color: Colors.black87,
-            fontSize: context.dynamicShortest(0.082),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: context.dynamicShortest(0.2), //fit(50, 50, 80, 180),
-            vertical: context.mediumValue,
-          ),
+        Center(
           child: Text(
-            subTitle,
+            title,
             textAlign: TextAlign.center,
-            style: context.theme.textTheme.bodyText2.copyWith(
-              fontSize: context.dynamicShortest(0.031),
+            style: context.theme.textTheme.headline4.copyWith(
+              color: Colors.black87,
+              fontSize: context.dynamicShortest(0.082),
             ),
           ),
         ),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(
+        //     horizontal: context.dynamicShortest(0.2), //fit(50, 50, 80, 180),
+        //     vertical: context.mediumValue,
+        //   ),
+        //   child: Text(
+        //     subTitle,
+        //     textAlign: TextAlign.center,
+        //     style: context.theme.textTheme.bodyText2.copyWith(
+        //       fontSize: context.dynamicShortest(0.031),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

@@ -143,8 +143,8 @@ class LoginWidget extends StatelessWidget {
         context.emptyWidgetWidthHigh,
         iconButton(context, logoFacebook, labelFacebook, () {}),
         iconButton(context, logoGoogle, labelGoogle, () {}),
-        iconButton(context, logoTwitter, labelTwitter, () {}),
-        iconButton(context, logoLinkedin, labelLinkedin, () {}),
+        // iconButton(context, logoTwitter, labelTwitter, () {}),
+        // iconButton(context, logoLinkedin, labelLinkedin, () {}),
         context.emptyWidgetWidthHigh,
       ],
     );

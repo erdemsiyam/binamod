@@ -1,4 +1,5 @@
 import 'package:binamod/model/packet2_response_model.dart';
+import 'package:binamod/providers/home_provider.dart';
 import 'package:binamod/providers/packet2_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import 'package:binamod/utils/context_extension.dart';
 
 class ResultWidget extends StatelessWidget {
   Packet2Provider _packet2provider;
+  HomeProvider homeProvider;
   Function onReset;
   ResultWidget({
     @required this.onReset,
@@ -13,6 +15,7 @@ class ResultWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _packet2provider = Provider.of<Packet2Provider>(context, listen: false);
+    homeProvider = Provider.of<HomeProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: context.dynamicHeight(0.0617),
@@ -61,7 +64,7 @@ class ResultWidget extends StatelessWidget {
 
   Widget resultText(BuildContext context) {
     return Text(
-      _packet2provider.packet2responseModel.resultText,
+      "Binanıza ${_packet2provider.packet2responseModel.weight} kadar ton ağırlığı uygulanmaktadır",
       textAlign: TextAlign.center,
       style: context.theme.textTheme.headline5.copyWith(
         color: Colors.blue[900],
@@ -171,6 +174,7 @@ class ResultWidget extends StatelessWidget {
       onPressed: () {
         onReset.call();
         _packet2provider.reset();
+        homeProvider.goToPacket1();
       },
     );
   }

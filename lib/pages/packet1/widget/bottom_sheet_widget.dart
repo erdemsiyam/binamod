@@ -1,9 +1,18 @@
+import 'package:binamod/model/packet1_response_model.dart';
+import 'package:binamod/providers/packet1_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:binamod/utils/context_extension.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class BottomSheetWidget extends StatelessWidget {
+  Packet1Provider packet1provider;
   PageController pageController;
-  BottomSheetWidget(this.pageController);
+  Packet1ResponseModel packet1responseModel;
+  BottomSheetWidget({
+    @required this.pageController,
+    @required this.packet1responseModel,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,107 +26,116 @@ class BottomSheetWidget extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(context.dynamicShortest(0.0585)),
-        child: Column(
+        child: arrivedData(context),
+      ),
+    );
+  }
+
+  Widget arrivedData(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Flexible(
+          child: Text(
+            'Olası Hasar',
+            textAlign: TextAlign.center,
+            style: context.theme.textTheme.headline6.copyWith(
+              fontWeight: FontWeight.bold,
+              color: context.theme.primaryColor,
+              fontSize: context.dynamicShortest(0.048),
+            ),
+          ),
+        ),
+        Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              kolon(context, Color(0x3087f9fa), 'Hafif',
+                  isSelected: DamageState.LOW == packet1responseModel.var7),
+              kolon(context, Color(0x30fcc940), 'Orta',
+                  isSelected: DamageState.MEDIUM == packet1responseModel.var7),
+              kolon(context, Color(0x30fd702f), 'Ağır',
+                  isSelected: DamageState.HIGH == packet1responseModel.var7),
+              kolon(context, Color(0x30c6211d), 'Çok Ağır',
+                  isSelected:
+                      DamageState.VERY_HIGH == packet1responseModel.var7),
+            ],
+          ),
+        ),
+        Divider(
+          color: Colors.grey,
+          thickness: 1.4,
+        ),
+        Text(
+          'Bugüne Kadar Oluşan',
+          style: context.theme.textTheme.bodyText1.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: context.dynamicShortest(0.035),
+          ),
+        ),
+        Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Flexible(
-              child: Text(
-                'Olası Hasar',
-                textAlign: TextAlign.center,
-                style: context.theme.textTheme.headline6.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: context.theme.primaryColor,
-                  fontSize: context.dynamicShortest(0.048),
+            satir(context, 'Can Kaybı', '${packet1responseModel.var6} adet'),
+            satir(context, 'Büyük Depremler',
+                '${packet1responseModel.var4} adet'),
+            satir(context, 'Depremin Büyüklüğü', packet1responseModel.var5),
+          ],
+        ),
+        Divider(
+          color: Colors.grey,
+          thickness: 1.4,
+        ),
+        Text(
+          'Beklenen depremin ivmesi ${packet1responseModel.var1} g 17 Ağustos 1999 Kocaeli depreminin ${packet1responseModel.var3} katıdır.',
+          style: context.theme.textTheme.caption.copyWith(
+            fontSize: context.dynamicShortest(0.03),
+          ),
+        ),
+        Center(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  context.dynamicWidth(0.073),
                 ),
               ),
             ),
-            Flexible(
-              child: Row(
+            onPressed: () {
+              Navigator.pop(context);
+              pageController.animateToPage(
+                1,
+                duration: Duration(milliseconds: 1000),
+                curve: Curves.easeInCubic,
+              );
+            },
+            child: Padding(
+              padding: EdgeInsets.all(
+                context.dynamicShortest(0.025),
+              ),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  kolon(context, Color(0x3087f9fa), 'Hafif'),
-                  kolon(context, Color(0x30fcc940), 'Orta'),
-                  kolon(context, Color(0x30fd702f), 'Ağır'),
-                  kolon(context, Color(0x30c6211d), 'Çok Ağır',
-                      isSelected: true),
+                  Text(
+                    'Bina Risk Önceliklendirmesi',
+                    style: context.theme.textTheme.bodyText1.copyWith(
+                      color: Colors.white,
+                      fontSize: context.dynamicShortest(0.032),
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down_sharp,
+                    size: context.dynamicShortest(0.039),
+                  ),
                 ],
               ),
             ),
-            Divider(
-              color: Colors.grey,
-              thickness: 1.4,
-            ),
-            Text(
-              'Bugüne Kadar Oluşan',
-              style: context.theme.textTheme.bodyText1.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: context.dynamicShortest(0.035),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                satir(context, 'Can Kaybı', '2300 adet'),
-                satir(context, 'Büyük Depremler', '7 adet'),
-                satir(context, 'Depremin Büyüklüğü', '7,5'),
-              ],
-            ),
-            Divider(
-              color: Colors.grey,
-              thickness: 1.4,
-            ),
-            Text(
-              'Beklenen depremin ivmesi 0.33 g 17 Ağustos 99 Depreminin 0.8 katıdır.',
-              style: context.theme.textTheme.caption.copyWith(
-                fontSize: context.dynamicShortest(0.03),
-              ),
-            ),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      context.dynamicWidth(0.073),
-                    ),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                  pageController.animateToPage(
-                    1,
-                    duration: Duration(milliseconds: 1000),
-                    curve: Curves.easeInCubic,
-                  );
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(
-                    context.dynamicShortest(0.025),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Bina Risk Önceliklendirmesi',
-                        style: context.theme.textTheme.bodyText1.copyWith(
-                          color: Colors.white,
-                          fontSize: context.dynamicShortest(0.032),
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_drop_down_sharp,
-                        size: context.dynamicShortest(0.039),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

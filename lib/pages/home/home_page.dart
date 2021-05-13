@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  PageController pageController = PageController(
-    initialPage: 0, // başlangıç sayfa indexi
-    keepPage: true,
-    viewportFraction: 1, // her pageview sayfasının arasındaki uzaklık
-  );
-  HomeProvider _homeProvider;
+  // PageController pageController = PageController(
+  //   initialPage: 0, // başlangıç sayfa indexi
+  //   keepPage: true,
+  //   viewportFraction: 1, // her pageview sayfasının arasındaki uzaklık
+  // );
+  HomeProvider homeProvider;
   @override
   Widget build(BuildContext context) {
-    _homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    homeProvider = Provider.of<HomeProvider>(context, listen: false);
     // _homeProvider.pageController = pageController;
     return PageView(
       physics: NeverScrollableScrollPhysics(),
@@ -24,12 +24,12 @@ class HomePage extends StatelessWidget {
       // ? ScrollPhysics()
       // : NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
-      controller: pageController,
+      controller: homeProvider.pageController,
       children: [
         // Paket 1
         ChangeNotifierProvider<Packet1Provider>(
           create: (_) => Packet1Provider(),
-          child: Packet1Page(pageController),
+          child: Packet1Page(homeProvider.pageController),
         ),
 
         // Paket 2

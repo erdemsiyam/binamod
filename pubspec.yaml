@@ -56,7 +56,9 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
+    - asset/images/icon.png
     - asset/images/map_sign.svg
+    - asset/images/auth/logo.svg
     - asset/images/auth/building1.svg
     - asset/images/auth/cloud1.svg
     - asset/images/auth/cloud2.svg
